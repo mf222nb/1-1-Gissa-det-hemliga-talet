@@ -1,0 +1,19 @@
+﻿@model NewNumberOfGuessingGame.ViewModels.SecretIndexViewModels
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm())
+{
+    
+    @Html.EditorFor(m => m.Guess)
+    <input name="post" type="submit" value="Send guess" />
+}
+
+@foreach (var item in Model.SecretNumber.GuessedNumbers)
+{
+    <td>@item.Number</td>
+}
