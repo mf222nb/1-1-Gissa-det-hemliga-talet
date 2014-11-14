@@ -3,35 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using NewNumberOfGuessingGame.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewNumberOfGuessingGame.ViewModels
 {
     public class SecretIndexViewModels
     {
-        private string _message;
         public SecretNumber SecretNumber { get; set; }
+        [Required]
         public int? Guess { get; set; }
-        public void Message()
+        public string OutcomeMessage { get; set; }
+        public int Count { get; set; }
+        public void OutconeMessage()
         {
             switch (SecretNumber.LastGuessedNumber.Outcome)
             {
                 case Outcome.Indefinite:
-                    _message = "Ingen gissning";
+                    OutcomeMessage = "Ingen gissning gjord";
                     break;
                 case Outcome.Low:
-                    _message = "För lågt";
+                    OutcomeMessage = "För lågt";
                     break;
                 case Outcome.High:
-                    _message = "För högt";
+                    OutcomeMessage = "För högt";
                     break;
                 case Outcome.Right:
-                    _message = "Rätt gissat";
+                    OutcomeMessage = "Rätt gissat";
                     break;
                 case Outcome.NoMoreGuesses:
-                    _message = "Du har inga gissningar kvar";
+                    OutcomeMessage = "Du har inga gissningar kvar";
                     break;
                 case Outcome.OldGuess:
-                    _message = "Du har redan gissat på det talet";
+                    OutcomeMessage = "Du har redan gissat på det talet";
                     break;
                 default:
                     break;

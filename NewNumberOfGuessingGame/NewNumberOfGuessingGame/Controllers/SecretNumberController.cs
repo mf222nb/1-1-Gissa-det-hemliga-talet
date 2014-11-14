@@ -22,6 +22,7 @@ namespace NewNumberOfGuessingGame.Controllers
         // GET: /SecretNumber/
         public ActionResult Index()
         {
+            SessionGuess.Initialize();
             var model = new SecretIndexViewModels()
             {
                 SecretNumber = SessionGuess
@@ -31,16 +32,30 @@ namespace NewNumberOfGuessingGame.Controllers
         [HttpPost]
         public ActionResult Index(SecretIndexViewModels model)
         {
-            try
+            if (Session.IsNewSession)
             {
-                model.SecretNumber = SessionGuess;
-                int guess = model.Guess.Value;
-                model.SecretNumber.MakeGuess(guess);
-                
+                model = new SecretIndexViewModels()
+                {
+                    SecretNumber = SessionGuess
+                };
+                ModelState.AddModelError(String.Empty, "Session har gått ut, startar nytt spel");
             }
-            catch (Exception)
+            else
             {
-                throw;
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        model.SecretNumber = SessionGuess;
+                        int guess = model.Guess.Value;
+                        model.SecretNumber.MakeGuess(guess);
+                        model.OutconeMessage();
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError(String.Empty, ex.Message);
+                    }
+                }
             }
             
             return View(model);

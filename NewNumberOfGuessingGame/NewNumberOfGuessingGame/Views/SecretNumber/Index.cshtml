@@ -4,16 +4,37 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Gissa det hemliga talet</h2>
+
+<p><h3>Gissa på ett tal mellan 1 och 100</h3></p>
 
 @using (Html.BeginForm())
 {
-    
+    @Html.ValidationSummary("Error")
     @Html.EditorFor(m => m.Guess)
-    <input name="post" type="submit" value="Send guess" />
+    <input name="post" type="submit" value="Gör gissning" />
 }
+
+<div><p>Antal gissningar: @Html.DisplayTextFor(m => m.SecretNumber.Count) av 7</p></div>
+<div>@Html.DisplayTextFor(m => m.OutcomeMessage)</div>
+
 
 @foreach (var item in Model.SecretNumber.GuessedNumbers)
 {
     <td>@item.Number</td>
+}
+
+@if (!Model.SecretNumber.CanMakeGuess)
+{
+    <div><p>Det hemliga talet är: @Html.DisplayTextFor(m => m.SecretNumber.Number)</p></div>
+    <p>@Html.ActionLink("Spela igen", "Index")</p>
+}
+
+@section scripts
+{
+    <script>
+        $(function () {
+            $("#Guess").focus();
+        });
+    </script>
 }

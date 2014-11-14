@@ -16,7 +16,7 @@ namespace NewNumberOfGuessingGame.Models
         {
             get
             {
-                if (Count <= MaxNumberOfGuesses)
+                if (Count < MaxNumberOfGuesses && LastGuessedNumber.Outcome != Outcome.Right)
                 {
                     return true;
                 }
@@ -51,11 +51,11 @@ namespace NewNumberOfGuessingGame.Models
         {
             get
             {
-                if (Count <= MaxNumberOfGuesses)
+                if (CanMakeGuess)
                 {
                     return null;
                 }
-                return 0;
+                return _number;
             }
             private set
             {
@@ -65,6 +65,7 @@ namespace NewNumberOfGuessingGame.Models
 
         public void Initialize()
         {
+            _lastGuessedNumber.Outcome = Outcome.Indefinite;
             _guessedNumber.Clear();
             Random myRandom = new Random();
             _number = myRandom.Next(1, 100);
@@ -83,7 +84,7 @@ namespace NewNumberOfGuessingGame.Models
 	            {
 		            if (item.Number == guess)
 	                {
-                        return Outcome.OldGuess;
+                        return _lastGuessedNumber.Outcome = Outcome.OldGuess;
 	                }
 	            }
                 
@@ -92,18 +93,22 @@ namespace NewNumberOfGuessingGame.Models
                 
                 if (guess > _number)
                 {
-                    return Outcome.High;
+                    _lastGuessedNumber.Outcome = Outcome.High;
                 }
                 else if (guess < _number)
                 {
-                    return Outcome.Low;
+                    _lastGuessedNumber.Outcome = Outcome.Low;
                 }
                 else if (guess == _number)
                 {
-                    return Outcome.Right;
+                    _lastGuessedNumber.Outcome = Outcome.Right;
                 }
             }
-            return Outcome.Indefinite;
+            else
+            {
+                _lastGuessedNumber.Outcome = Outcome.NoMoreGuesses;
+            }
+            return _lastGuessedNumber.Outcome;
         }
 
         public SecretNumber()
