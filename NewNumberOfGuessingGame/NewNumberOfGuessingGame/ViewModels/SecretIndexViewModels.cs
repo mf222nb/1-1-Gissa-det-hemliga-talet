@@ -11,33 +11,36 @@ namespace NewNumberOfGuessingGame.ViewModels
     {
         public SecretNumber SecretNumber { get; set; }
         [Required]
+        [Range(1, 100)]
         public int? Guess { get; set; }
-        public string OutcomeMessage { get; set; }
         public int Count { get; set; }
-        public void OutconeMessage()
+        public string OutcomeMessage
         {
-            switch (SecretNumber.LastGuessedNumber.Outcome)
+            get
             {
-                case Outcome.Indefinite:
-                    OutcomeMessage = "Ingen gissning gjord";
-                    break;
-                case Outcome.Low:
-                    OutcomeMessage = "För lågt";
-                    break;
-                case Outcome.High:
-                    OutcomeMessage = "För högt";
-                    break;
-                case Outcome.Right:
-                    OutcomeMessage = "Rätt gissat";
-                    break;
-                case Outcome.NoMoreGuesses:
-                    OutcomeMessage = "Du har inga gissningar kvar";
-                    break;
-                case Outcome.OldGuess:
-                    OutcomeMessage = "Du har redan gissat på det talet";
-                    break;
-                default:
-                    break;
+                switch (SecretNumber.LastGuessedNumber.Outcome)
+                {
+                    case Outcome.Indefinite:
+                        return "Ingen gissning gjord";
+                        
+                    case Outcome.Low:
+                        return "För lågt";
+                        
+                    case Outcome.High:
+                        return "För högt";
+                        
+                    case Outcome.Right:
+                        return "Rätt gissat";
+                        
+                    case Outcome.NoMoreGuesses:
+                        return "Du har inga gissningar kvar";
+                        
+                    case Outcome.OldGuess:
+                        return "Du har redan gissat på det talet";
+                        
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
     }

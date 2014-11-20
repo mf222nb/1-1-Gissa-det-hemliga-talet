@@ -46,10 +46,8 @@ namespace NewNumberOfGuessingGame.Controllers
                 {
                     try
                     {
+                        SessionGuess.MakeGuess(model.Guess.Value);
                         model.SecretNumber = SessionGuess;
-                        int guess = model.Guess.Value;
-                        model.SecretNumber.MakeGuess(guess);
-                        model.OutconeMessage();
                     }
                     catch (Exception ex)
                     {

@@ -10,7 +10,7 @@
 
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary("Error")
+    @Html.ValidationSummary("Gissning misslyckades. Rätta till felet och försök igen.")
     @Html.EditorFor(m => m.Guess)
     <input name="post" type="submit" value="Gör gissning" />
 }
